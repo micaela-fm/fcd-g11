@@ -22,7 +22,7 @@ Seleção final por exercício:
 * `src/ex2/utils` contém código comum aos scripts do Exercício 2.
 * `output/ex1` contém as tabelas geradas no Exercício 1.
 * `output/ex2/a` contém tabelas e ficheiros convertidos do Exercício 2(a).
-* `output/ex2/b` contém figuras do Exercício 2(b).
+* `output/ex2/b` contém figuras e tabelas geradas no Exercício 2(b).
 * `report` será usado para o relatório.
 * `_local_references` contém anexos locais ignorados pelo Git e não faz parte da entrega.
 
@@ -35,6 +35,16 @@ Nos exemplos abaixo:
 * `<repo-root>` representa a pasta raiz do projeto `fcd-g11`;
 * `<path-to-venv>` representa o caminho para o ambiente virtual Python;
 * depois de ativar o ambiente, executar sempre os scripts com `python -m ...`.
+
+## Preparação do ambiente Python
+
+Criar e ativar um ambiente virtual, depois instalar as dependências:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r A3/requirements.txt
+```
 
 ## Menu de execução
 
@@ -150,3 +160,26 @@ Para reutilizar os scripts com outro dataset:
 * definir `read_options` quando o ficheiro precisar de separador, cabeçalho ou nomes de colunas específicos;
 * garantir que o ficheiro existe em `A3/data/raw`;
 * no script de visualização, ajustar `DATASET_ID`, `SCATTER_PAIRS` e `OUTPUT_PREFIX`.
+
+## Notas para o relatório
+
+No relatório PDF, as tabelas devem privilegiar nomes de ficheiros simples para manter a leitura clara.
+Nos outputs técnicos e neste README, podem ser usados paths relativos completos para facilitar a validação dos ficheiros.
+
+## Exportação limpa do projeto
+
+A entrega/zip final não deve incluir ficheiros locais ou gerados automaticamente, como:
+
+* `.git/`
+* `.idea/`
+* `A3/_local_references/`
+* `A3/config/local.properties`
+* `__pycache__/`
+* `build/`
+* `tmp/`
+
+Comando recomendado para criar um zip limpo a partir do Git:
+
+```bash
+git archive --format=zip --output ../fcd-g11-a3.zip HEAD
+```

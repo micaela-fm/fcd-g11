@@ -28,6 +28,7 @@ def get_dataset_configs():
 
     return [
         {
+            "dataset_id": "diabetes",
             "dataset_name": "Diabetes",
             "source_file": a3_root / "data" / "raw" / "diabetes" / "diabetes.csv",
             "source_url": "https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database",
@@ -36,6 +37,7 @@ def get_dataset_configs():
             "read_options": {},
         },
         {
+            "dataset_id": "iris",
             "dataset_name": "Iris",
             "source_file": a3_root / "data" / "raw" / "iris" / "iris.data",
             "source_url": "https://archive.ics.uci.edu/dataset/53/iris",
@@ -44,18 +46,7 @@ def get_dataset_configs():
             "read_options": {"header": None, "names": iris_columns},
         },
         {
-            "dataset_name": "Wine Quality - Red",
-            "source_file": a3_root
-            / "data"
-            / "raw"
-            / "wine+quality"
-            / "winequality-red.csv",
-            "source_url": "https://archive.ics.uci.edu/dataset/186/wine+quality",
-            "target_column": "quality",
-            "task_type": "classificação ordinal/multiclasse",
-            "read_options": {"sep": ";"},
-        },
-        {
+            "dataset_id": "wine_quality_white",
             "dataset_name": "Wine Quality - White",
             "source_file": a3_root
             / "data"
@@ -68,6 +59,7 @@ def get_dataset_configs():
             "read_options": {"sep": ";"},
         },
         {
+            "dataset_id": "forest_fires",
             "dataset_name": "Forest Fires",
             "source_file": a3_root
             / "data"
@@ -79,6 +71,15 @@ def get_dataset_configs():
             "task_type": "regressão",
             "read_options": {},
         },
+    ]
+
+
+def get_ex2a_dataset_configs():
+    ex2a_dataset_ids = {"diabetes", "iris", "forest_fires"}
+    return [
+        dataset_config
+        for dataset_config in get_dataset_configs()
+        if dataset_config["dataset_id"] in ex2a_dataset_ids
     ]
 
 

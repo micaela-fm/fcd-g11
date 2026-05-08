@@ -3,7 +3,7 @@ import pandas as pd
 from A3.src.ex2.utils.datasets import (
     count_feature_types,
     get_a3_root,
-    get_dataset_configs,
+    get_ex2a_dataset_configs,
     load_dataset,
     relative_to_project,
 )
@@ -14,10 +14,12 @@ OUTPUT_TABLES_DIR = get_a3_root() / "output" / "ex2" / "a" / "tables"
 METHODOLOGICAL_NOTE = """
 ## Nota metodológica
 
-* As características numéricas e categóricas foram contadas excluindo a variável alvo.
-* A percentagem de valores omissos considera valores formalmente marcados como ausentes no ficheiro.
+* A tabela corresponde aos três conjuntos de dados escolhidos para o Exercício 2(a).
+* A contagem de características exclui a variável alvo.
+* A percentagem de valores omissos considera apenas valores formalmente ausentes.
 * No dataset Diabetes existem valores zero em atributos clínicos que podem ser interpretados como valores inválidos/suspeitos, mas não foram tratados como omissos nesta caracterização inicial.
 * O dataset Forest Fires é identificado como regressão porque a variável alvo `area` é numérica contínua.
+* O dataset Wine Quality - White será usado posteriormente no Exercício 3, mas não integra a tabela do Exercício 2(a).
 """
 
 
@@ -85,7 +87,8 @@ def save_summary(summary_dataframe):
 
 def main():
     summary_rows = [
-        summarize_dataset(dataset_config) for dataset_config in get_dataset_configs()
+        summarize_dataset(dataset_config)
+        for dataset_config in get_ex2a_dataset_configs()
     ]
     summary_dataframe = pd.DataFrame(summary_rows)
     csv_path, markdown_path = save_summary(summary_dataframe)

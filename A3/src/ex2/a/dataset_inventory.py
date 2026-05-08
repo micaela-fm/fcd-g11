@@ -12,6 +12,9 @@ def print_dataset_summary(dataset_config, dataframe):
 
     print("=" * 80)
     print(f"Dataset: {dataset_config['dataset_name']}")
+    print(f"Dataset id: {dataset_config['dataset_id']}")
+    if dataset_config["dataset_id"] == "wine_quality_white":
+        print("Usage note: dataset reservado para classificação no Exercício 3.")
     print(f"Path: {relative_to_project(dataset_config['source_file'])}")
     print(f"Shape: {dataframe.shape}")
     print("\nFirst 5 rows:")

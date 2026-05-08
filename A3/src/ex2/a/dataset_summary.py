@@ -7,6 +7,7 @@ from A3.src.ex2.utils.datasets import (
     load_dataset,
     relative_to_project,
 )
+from A3.src.ex2.utils.output import save_dataframe_as_csv_and_markdown
 
 
 OUTPUT_TABLES_DIR = get_a3_root() / "output" / "ex2" / "a" / "tables"
@@ -52,37 +53,17 @@ def summarize_dataset(dataset_config):
     }
 
 
-def dataframe_to_markdown(dataframe):
-    columns = list(dataframe.columns)
-    rows = [
-        "| " + " | ".join(columns) + " |",
-        "| " + " | ".join("---" for _ in columns) + " |",
-    ]
-
-    for _, row in dataframe.iterrows():
-        values = [str(row[column]) for column in columns]
-        rows.append("| " + " | ".join(values) + " |")
-
-    return "\n".join(rows)
-
-
 def save_summary(summary_dataframe):
-    OUTPUT_TABLES_DIR.mkdir(parents=True, exist_ok=True)
-
     csv_path = OUTPUT_TABLES_DIR / "ex2a_dataset_summary.csv"
     markdown_path = OUTPUT_TABLES_DIR / "ex2a_dataset_summary.md"
 
-    summary_dataframe.to_csv(csv_path, index=False)
-
-    markdown_content = dataframe_to_markdown(summary_dataframe)
-    markdown_path.write_text(
-        f"# Caracterização dos datasets - Exercício 2(a)\n\n"
-        f"{markdown_content}\n"
-        f"{METHODOLOGICAL_NOTE}",
-        encoding="utf-8",
+    return save_dataframe_as_csv_and_markdown(
+        summary_dataframe,
+        csv_path,
+        markdown_path,
+        "Caracterização dos datasets - Exercício 2(a)",
+        METHODOLOGICAL_NOTE,
     )
-
-    return csv_path, markdown_path
 
 
 def main():

@@ -6,6 +6,7 @@ from A3.src.ex2.utils.datasets import (
     load_dataset,
     relative_to_project,
 )
+from A3.src.ex2.utils.output import save_dataframe_as_csv_and_markdown
 
 
 FIGURES_DIR = get_a3_root() / "output" / "ex2" / "b" / "figures"
@@ -26,20 +27,6 @@ CLASS_COLORS = {
     "Iris-versicolor": "#ff7f0e",
     "Iris-virginica": "#2ca02c",
 }
-
-
-def dataframe_to_markdown(dataframe):
-    columns = list(dataframe.columns)
-    rows = [
-        "| " + " | ".join(columns) + " |",
-        "| " + " | ".join("---" for _ in columns) + " |",
-    ]
-
-    for _, row in dataframe.iterrows():
-        values = [str(row[column]) for column in columns]
-        rows.append("| " + " | ".join(values) + " |")
-
-    return "\n".join(rows)
 
 
 def load_visualization_dataset(dataset_id):
@@ -158,19 +145,15 @@ def create_class_distribution_plot(
 
 
 def save_class_distribution_table(class_distribution, dataset_name):
-    TABLES_DIR.mkdir(parents=True, exist_ok=True)
-
     csv_path = TABLES_DIR / f"{TABLE_PREFIX}_class_distribution.csv"
     markdown_path = TABLES_DIR / f"{TABLE_PREFIX}_class_distribution.md"
 
-    class_distribution.to_csv(csv_path, index=False)
-    markdown_path.write_text(
-        f"# Distribuição das classes {dataset_name} - Exercício 2(b)\n\n"
-        f"{dataframe_to_markdown(class_distribution)}\n",
-        encoding="utf-8",
+    return save_dataframe_as_csv_and_markdown(
+        class_distribution,
+        csv_path,
+        markdown_path,
+        f"Distribuição das classes {dataset_name} - Exercício 2(b)",
     )
-
-    return csv_path, markdown_path
 
 
 def main():

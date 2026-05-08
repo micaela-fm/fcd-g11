@@ -6,6 +6,7 @@ from A3.src.ex2.utils.datasets import (
     load_dataset,
     relative_to_project,
 )
+from A3.src.ex2.utils.output import save_dataframe_as_csv_and_markdown
 
 
 CONVERTED_DIR = get_a3_root() / "output" / "ex2" / "a" / "converted"
@@ -19,20 +20,6 @@ METHODOLOGICAL_NOTE = """
 * O dataset Iris foi também exportado para CSV porque o ficheiro original `.data` não contém cabeçalho explícito.
 * Os ficheiros originais não foram alterados.
 """
-
-
-def dataframe_to_markdown(dataframe):
-    columns = list(dataframe.columns)
-    rows = [
-        "| " + " | ".join(columns) + " |",
-        "| " + " | ".join("---" for _ in columns) + " |",
-    ]
-
-    for _, row in dataframe.iterrows():
-        values = [str(row[column]) for column in columns]
-        rows.append("| " + " | ".join(values) + " |")
-
-    return "\n".join(rows)
 
 
 def get_file_format(path):
@@ -81,20 +68,16 @@ def convert_dataset(dataset_config):
 
 
 def save_conversions_table(conversions_dataframe):
-    TABLES_DIR.mkdir(parents=True, exist_ok=True)
-
     csv_path = TABLES_DIR / "ex2a_converted_files.csv"
     markdown_path = TABLES_DIR / "ex2a_converted_files.md"
 
-    conversions_dataframe.to_csv(csv_path, index=False)
-    markdown_path.write_text(
-        "# Ficheiros convertidos - Exercício 2(a)\n\n"
-        f"{dataframe_to_markdown(conversions_dataframe)}\n"
-        f"{METHODOLOGICAL_NOTE}",
-        encoding="utf-8",
+    return save_dataframe_as_csv_and_markdown(
+        conversions_dataframe,
+        csv_path,
+        markdown_path,
+        "Ficheiros convertidos - Exercício 2(a)",
+        METHODOLOGICAL_NOTE,
     )
-
-    return csv_path, markdown_path
 
 
 def main():

@@ -83,6 +83,14 @@ def get_ex2a_dataset_configs():
     ]
 
 
+def get_dataset_config_by_id(dataset_id):
+    for dataset_config in get_dataset_configs():
+        if dataset_config["dataset_id"] == dataset_id:
+            return dataset_config
+
+    raise ValueError(f"Dataset não configurado: {dataset_id}")
+
+
 def load_dataset(dataset_config):
     return pd.read_csv(
         dataset_config["source_file"],

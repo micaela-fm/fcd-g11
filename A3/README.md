@@ -31,7 +31,8 @@ Seleção final por exercício:
 Executar:
 
 ```bash
-python3 -m A3.src.ex1.environment_check
+source /home/tiago-nevoa/.virtualenvs/fcd-g11/bin/activate
+python -m A3.src.ex1.environment_check
 ```
 
 Ficheiros gerados:
@@ -46,9 +47,10 @@ A tabela do Exercício 2(a) caracteriza apenas Diabetes, Iris e Forest Fires. O 
 Executar:
 
 ```bash
-python3 -m A3.src.ex2.a.dataset_inventory
-python3 -m A3.src.ex2.a.dataset_summary
-python3 -m A3.src.ex2.a.dataset_conversion
+source /home/tiago-nevoa/.virtualenvs/fcd-g11/bin/activate
+python -m A3.src.ex2.a.dataset_inventory
+python -m A3.src.ex2.a.dataset_summary
+python -m A3.src.ex2.a.dataset_conversion
 ```
 
 Ficheiros gerados:
@@ -58,3 +60,25 @@ Ficheiros gerados:
 * `A3/output/ex2/a/tables/ex2a_converted_files.csv`
 * `A3/output/ex2/a/tables/ex2a_converted_files.md`
 * `A3/output/ex2/a/converted/`
+
+## Exercício 2(b) - Visualização do Iris
+
+Este exercício gera três scatter-plots individuais, um gráfico de barras e uma tabela com a distribuição das classes.
+
+Executar:
+
+```bash
+source /home/tiago-nevoa/.virtualenvs/fcd-g11/bin/activate
+python -m A3.src.ex2.b.iris_visualization
+```
+
+Ficheiros gerados:
+
+* `A3/output/ex2/b/figures/2b_Iris_PetalLength_PetalWidth.png`
+* `A3/output/ex2/b/figures/2b_Iris_SepalLength_SepalWidth.png`
+* `A3/output/ex2/b/figures/2b_Iris_SepalLength_PetalLength.png`
+* `A3/output/ex2/b/figures/2b_Iris_ClassDistribution.png`
+* `A3/output/ex2/b/tables/2b_iris_class_distribution.csv`
+* `A3/output/ex2/b/tables/2b_iris_class_distribution.md`
+
+Para adaptar este script a outro dataset, configurar no início de `iris_visualization.py` os valores `DATASET_ID`, `SCATTER_PAIRS` e `OUTPUT_PREFIX`. O dataset também deve estar registado em `A3/src/ex2/utils/datasets.py`.

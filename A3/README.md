@@ -36,6 +36,50 @@ Nos exemplos abaixo:
 * `<path-to-venv>` representa o caminho para o ambiente virtual Python;
 * depois de ativar o ambiente, executar sempre os scripts com `python -m ...`.
 
+## Menu de execução
+
+Executar a partir da raiz do repositório, com o ambiente virtual ativado:
+
+```bash
+cd <repo-root>
+source <path-to-venv>/bin/activate
+python -m A3.src.menu
+```
+
+O menu permite correr scripts individuais, correr todos os scripts e verificar se os outputs esperados existem.
+
+## Configuração local opcional
+
+O ficheiro `A3/config/local.properties.example` é o template de configuração local.
+Cada utilizador pode criar `A3/config/local.properties`, que é local e não deve ir para Git.
+
+Criar a configuração local:
+
+```bash
+cp A3/config/local.properties.example A3/config/local.properties
+```
+
+Depois editar `A3/config/local.properties` e preencher:
+
+```text
+repo_root=<repo-root>
+venv_path=<path-to-venv>
+```
+
+Com essa configuração, é possível abrir o menu com:
+
+```bash
+bash A3/scripts/run_menu.sh
+```
+
+Também é possível continuar a usar o comando genérico:
+
+```bash
+cd <repo-root>
+source <path-to-venv>/bin/activate
+python -m A3.src.menu
+```
+
 ## Exercício 1 - Ambiente
 
 Executar:

@@ -208,6 +208,9 @@ tempCodeRunnerFile.py
 # Ruff stuff:
 .ruff_cache/
 
+# Local A3 configuration
+A3/config/local.properties
+
 # PyPI configuration file
 .pypirc
 
@@ -218,4 +221,3 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-

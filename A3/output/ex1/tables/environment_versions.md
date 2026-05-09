@@ -1,0 +1,10 @@
+# Versões do ambiente - Exercício 1
+
+| package | version |
+| --- | --- |
+| python | 3.12.3 |
+| numpy | 2.4.4 |
+| pandas | 3.0.2 |
+| matplotlib | 3.10.9 |
+| seaborn | 0.13.2 |
+| sklearn | 1.8.0 |

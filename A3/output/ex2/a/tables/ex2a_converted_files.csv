@@ -1,0 +1,5 @@
+dataset_name,source_file,original_format,converted_file,converted_format,n_instances,n_columns
+Diabetes,A3/data/raw/diabetes/diabetes.csv,csv,A3/output/ex2/a/converted/diabetes/diabetes.json,json,768,9
+Iris,A3/data/raw/iris/iris.data,data,A3/output/ex2/a/converted/iris/iris.json,json,150,5
+Iris,A3/data/raw/iris/iris.data,data,A3/output/ex2/a/converted/iris/iris.csv,csv,150,5
+Forest Fires,A3/data/raw/forest+fires/forestfires.csv,csv,A3/output/ex2/a/converted/forest_fires/forest_fires.json,json,517,13

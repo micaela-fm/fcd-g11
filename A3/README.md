@@ -6,12 +6,13 @@
 * [Iris](https://archive.ics.uci.edu/dataset/53/iris)
 * [Wine quality - white](https://archive.ics.uci.edu/dataset/186/wine+quality)
 * [Forest fires](https://archive.ics.uci.edu/dataset/162/forest+fires)
+* [Zoo](https://archive.ics.uci.edu/dataset/111/zoo)
 
 Seleção final por exercício:
 
 * Exercício 2(a): Diabetes, Iris e Forest Fires.
 * Exercício 2(b): Iris.
-* Exercício 3: Diabetes, Iris, Wine Quality - White e Forest Fires com alvo binário derivado de `area`.
+* Exercício 3: Diabetes, Iris, Wine Quality - White e Zoo
 
 ## Estrutura do A.3
 

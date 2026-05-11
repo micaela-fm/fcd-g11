@@ -1,0 +1,23 @@
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llllllllll}
+\hline
+dataset & classifier & accuracy\_mean & accuracy\_std & precision\_mean & precision\_std & recall\_mean & recall\_std & f1\_mean & f1\_std \\
+\hline
+diabetes & Decision Tree & 0.7227 & 0.0370 & 0.7241 & 0.0327 & 0.7227 & 0.0370 & 0.7216 & 0.0331 \\
+diabetes & kNN & 0.7227 & 0.0508 & 0.7142 & 0.0545 & 0.7227 & 0.0508 & 0.7151 & 0.0543 \\
+diabetes & SVM & 0.7644 & 0.0384 & 0.7631 & 0.0449 & 0.7644 & 0.0384 & 0.7490 & 0.0428 \\
+iris & Decision Tree & 0.9400 & 0.0554 & 0.9542 & 0.0362 & 0.9400 & 0.0554 & 0.9376 & 0.0605 \\
+iris & kNN & 0.9533 & 0.0306 & 0.9611 & 0.0255 & 0.9533 & 0.0306 & 0.9529 & 0.0309 \\
+iris & SVM & 0.9600 & 0.0442 & 0.9644 & 0.0418 & 0.9600 & 0.0442 & 0.9597 & 0.0444 \\
+winequality & Decision Tree & 0.6284 & 0.0233 & 0.6313 & 0.0221 & 0.6284 & 0.0233 & 0.6289 & 0.0229 \\
+winequality & kNN & 0.4947 & 0.0185 & 0.4806 & 0.0218 & 0.4947 & 0.0185 & 0.4817 & 0.0191 \\
+winequality & SVM & 0.4500 & 0.0067 & 0.3490 & 0.0403 & 0.4500 & 0.0067 & 0.3112 & 0.0129 \\
+zoo & Decision Tree & 0.9600 & 0.0663 & 0.9550 & 0.0789 & 0.9600 & 0.0663 & 0.9567 & 0.0746 \\
+zoo & kNN & 0.9009 & 0.1000 & 0.8917 & 0.1135 & 0.9009 & 0.1000 & 0.8880 & 0.1109 \\
+zoo & SVM & 0.9509 & 0.0492 & 0.9364 & 0.0656 & 0.9509 & 0.0492 & 0.9412 & 0.0597 \\
+\hline
+\end{tabular}
+\caption{Resumo dos resultados da validação cruzada (10-fold)}
+\label{tab:ex3-summary}
+\end{table}

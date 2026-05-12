@@ -1,4 +1,4 @@
-package,version
+component,version
 python,3.12.3
 numpy,2.4.4
 pandas,3.0.2

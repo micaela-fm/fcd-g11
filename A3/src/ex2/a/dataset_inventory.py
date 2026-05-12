@@ -1,11 +1,12 @@
 from A3.src.ex2.utils.datasets import (
     get_dataset_configs,
     load_dataset,
-    relative_to_project,
 )
+from A3.src.utils.paths import relative_to_project
 
 
 def print_dataset_summary(dataset_config, dataframe):
+    """Print a dataset inventory summary."""
     total_values = dataframe.size
     missing_values = int(dataframe.isna().sum().sum())
     missing_percentage = (missing_values / total_values) * 100 if total_values else 0
@@ -13,8 +14,6 @@ def print_dataset_summary(dataset_config, dataframe):
     print("=" * 80)
     print(f"Dataset: {dataset_config['dataset_name']}")
     print(f"Dataset id: {dataset_config['dataset_id']}")
-    if dataset_config["dataset_id"] == "wine_quality_white":
-        print("Usage note: dataset reservado para classificação no Exercício 3.")
     print(f"Path: {relative_to_project(dataset_config['source_file'])}")
     print(f"Shape: {dataframe.shape}")
     print("\nFirst 5 rows:")
@@ -30,6 +29,7 @@ def print_dataset_summary(dataset_config, dataframe):
 
 
 def main():
+    """Print the inventory for all configured datasets."""
     for dataset_config in get_dataset_configs():
         dataframe = load_dataset(dataset_config)
         print_dataset_summary(dataset_config, dataframe)

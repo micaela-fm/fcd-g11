@@ -1,22 +1,26 @@
-from pathlib import Path
-
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 
+from A3.src.utils import paths as project_paths
+
 
 def get_project_root():
-    return Path(__file__).resolve().parents[4]
+    """Return the repository root path."""
+    return project_paths.get_project_root()
 
 
 def get_a3_root():
-    return get_project_root() / "A3"
+    """Return the A3 project root path."""
+    return project_paths.get_a3_root()
 
 
 def relative_to_project(path):
-    return Path(path).relative_to(get_project_root()).as_posix()
+    """Return a path relative to the repository root."""
+    return project_paths.relative_to_project(path)
 
 
 def get_dataset_configs():
+    """Return static dataset metadata."""
     a3_root = get_a3_root()
     iris_columns = [
         "sepal_length",
@@ -75,6 +79,7 @@ def get_dataset_configs():
 
 
 def get_ex2a_dataset_configs():
+    """Return the datasets selected for Ex.2(a)."""
     ex2a_dataset_ids = {"diabetes", "iris", "forest_fires"}
     return [
         dataset_config
@@ -84,6 +89,7 @@ def get_ex2a_dataset_configs():
 
 
 def get_dataset_config_by_id(dataset_id):
+    """Return one dataset metadata config by id."""
     for dataset_config in get_dataset_configs():
         if dataset_config["dataset_id"] == dataset_id:
             return dataset_config
@@ -92,6 +98,7 @@ def get_dataset_config_by_id(dataset_id):
 
 
 def load_dataset(dataset_config):
+    """Load a dataset using its metadata config."""
     return pd.read_csv(
         dataset_config["source_file"],
         **dataset_config.get("read_options", {}),
@@ -99,8 +106,41 @@ def load_dataset(dataset_config):
 
 
 def count_feature_types(dataframe, target_column):
+    """Count feature types excluding the target column."""
     feature_columns = [column for column in dataframe.columns if column != target_column]
     numeric_features = sum(is_numeric_dtype(dataframe[column]) for column in feature_columns)
     categorical_features = len(feature_columns) - numeric_features
 
     return len(feature_columns), numeric_features, categorical_features
+
+
+def get_file_format(path):
+    """Return the file extension without dot."""
+    return path.suffix.replace(".", "").lower()
+
+
+def get_dataset_profile(dataframe, dataset_config):
+    """Infer dataset profile values from a loaded dataframe."""
+    target_column = dataset_config["target_column"]
+    total_values = dataframe.size
+    missing_values_total = int(dataframe.isna().sum().sum())
+    missing_values_percentage = (
+        (missing_values_total / total_values) * 100 if total_values else 0
+    )
+    n_features, n_numeric_features, n_categorical_features = count_feature_types(
+        dataframe,
+        target_column,
+    )
+
+    return {
+        "source_file_name": dataset_config["source_file"].name,
+        "source_format": get_file_format(dataset_config["source_file"]),
+        "n_instances": len(dataframe),
+        "n_columns_total": len(dataframe.columns),
+        "n_predictive_features": n_features,
+        "n_numeric_features": n_numeric_features,
+        "n_categorical_features": n_categorical_features,
+        "missing_values_total": missing_values_total,
+        "missing_values_percentage": round(missing_values_percentage, 2),
+        "target_unique_values": int(dataframe[target_column].nunique(dropna=True)),
+    }

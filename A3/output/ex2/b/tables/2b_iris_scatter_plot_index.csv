@@ -1,0 +1,4 @@
+plot_file,dataset_name,variable_x,variable_y,target_column
+2b_Iris_PetalLength_PetalWidth.png,Iris,petal_length,petal_width,class
+2b_Iris_SepalLength_SepalWidth.png,Iris,sepal_length,sepal_width,class
+2b_Iris_SepalLength_PetalLength.png,Iris,sepal_length,petal_length,class

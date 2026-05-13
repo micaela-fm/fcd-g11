@@ -1,26 +1,27 @@
 import pandas as pd
 import numpy as np
-from pathlib import Path
 
-from src.ex3.classification import (
+from A3.src.utils.paths import get_a3_root, relative_to_project
+from A3.src.ex3.classification import (
+    create_decision_tree_classifier,
+    create_knn_classifier,
+    create_svm_classifier,
     plot_decision_tree_classifier,
-    train_decision_tree_classifier,
-    train_knn_classifier,
-    train_svm_classifier,
 )
-from src.ex3.evaluation import evaluate_classifier_cv
-from src.ex3.utils import load_dataset_for_classification
+from A3.src.ex3.evaluation import evaluate_classifier_cv
+from A3.src.ex3.utils import load_dataset_for_classification
 
 
 DATASETS = ["diabetes", "iris", "winequality", "zoo"]
 CLASSIFIERS = {
-    "Decision Tree": train_decision_tree_classifier,
-    "kNN": train_knn_classifier,
-    "SVM": train_svm_classifier,
+    "Decision Tree": create_decision_tree_classifier,
+    "kNN": create_knn_classifier,
+    "SVM": create_svm_classifier,
 }
 
 
 def escape_latex(text):
+    """Escape text for LaTeX output."""
     replacements = {
         "\\": r"\textbackslash{}",
         "&": r"\&",
@@ -40,12 +41,14 @@ def escape_latex(text):
 
 
 def format_latex_cell(value, float_format="%.4f"):
+    """Format one dataframe cell for LaTeX output."""
     if isinstance(value, (float, np.floating)):
         return float_format % value
     return escape_latex(value)
 
 
 def dataframe_to_latex(dataframe, index=False, float_format="%.4f"):
+    """Convert a dataframe to a LaTeX tabular body."""
     latex_df = dataframe.copy()
 
     if index:
@@ -71,6 +74,7 @@ def dataframe_to_latex(dataframe, index=False, float_format="%.4f"):
 
 
 def wrap_latex_table(tabular_body, caption, label):
+    """Wrap a LaTeX tabular body in a table environment."""
     return "\n".join(
         [
             r"\begin{table}[htbp]",
@@ -94,18 +98,9 @@ def dataset_report_to_latex(dataset_name, report_rows):
 
 
 def save_results_to_csv(all_results):
-    """Save evaluation results to CSV files."""
-    output_dir = Path("output") / "ex3" / "tables"
+    """Save evaluation results as CSV and LaTeX tables."""
+    output_dir = get_a3_root() / "output" / "ex3" / "tables"
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    # Remove legacy per-classifier report files; we now export one report per dataset.
-    for dataset_name in DATASETS:
-        for clf_name in CLASSIFIERS.keys():
-            clf_tag = clf_name.replace(" ", "_")
-            for extension in ("txt", "tex", "csv"):
-                legacy_report = output_dir / f"{dataset_name}_{clf_tag}_classification_report.{extension}"
-                if legacy_report.exists():
-                    legacy_report.unlink()
 
     # Summary table: mean metrics for each (dataset, classifier) pair
     summary_rows = []
@@ -129,7 +124,7 @@ def save_results_to_csv(all_results):
     summary_df = pd.DataFrame(summary_rows)
     summary_csv = output_dir / "evaluation_summary.csv"
     summary_df.to_csv(summary_csv, index=False)
-    print(f"\nSummary saved to: {summary_csv}")
+    print(f"\nSummary saved to: {relative_to_project(summary_csv)}")
 
     summary_tex = output_dir / "evaluation_summary.tex"
     summary_tex.write_text(
@@ -209,6 +204,7 @@ def save_results_to_csv(all_results):
 
 
 def main():
+    """Run the Ex.3 classification workflow."""
     all_results = {}
 
     print("=" * 80)
@@ -224,9 +220,9 @@ def main():
         print(f"Features: {len(feature_names)}, Samples: {len(X)}, Classes: {len(class_names)}")
         print(f"Class distribution: {dict(y.value_counts())}")
 
-        for clf_name, clf_factory in CLASSIFIERS.items():
+        for clf_name, create_classifier in CLASSIFIERS.items():
             print(f"\n  {clf_name}:")
-            clf = clf_factory(X, y)
+            clf = create_classifier()
             results = evaluate_classifier_cv(clf, X, y)
             all_results[(dataset_name, clf_name)] = results
 
@@ -244,7 +240,8 @@ def main():
     print("Training final Decision Tree on full Diabetes dataset for visualization")
     print(f"{'='*80}")
     X_diabetes, y_diabetes, _, _ = load_dataset_for_classification("diabetes")
-    dt_final = train_decision_tree_classifier(X_diabetes, y_diabetes)
+    dt_final = create_decision_tree_classifier()
+    dt_final.fit(X_diabetes, y_diabetes)
     plot_decision_tree_classifier(dt_final)
 
 

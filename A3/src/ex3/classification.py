@@ -1,26 +1,41 @@
 from sklearn import tree
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 import matplotlib.pyplot as plt
-from pathlib import Path
+
+from A3.src.utils.paths import get_a3_root
 
 
-def train_decision_tree_classifier(X, y):
-    decision_tree = tree.DecisionTreeClassifier()
-    return decision_tree.fit(X, y)
+def create_decision_tree_classifier():
+    """Create a decision tree classifier."""
+    return DecisionTreeClassifier(criterion="entropy", random_state=0)
 
 
-def train_knn_classifier(X, y):
-    knn = KNeighborsClassifier(n_neighbors=5)
-    return knn.fit(X, y)
+def create_knn_classifier():
+    """Create a kNN classifier pipeline with feature scaling."""
+    return Pipeline(
+        [
+            ("scaler", StandardScaler()),
+            ("classifier", KNeighborsClassifier(n_neighbors=5)),
+        ]
+    )
 
 
-def train_svm_classifier(X, y):
-    svm = SVC(kernel="rbf", random_state=0)
-    return svm.fit(X, y)
+def create_svm_classifier():
+    """Create an SVM classifier pipeline with feature scaling."""
+    return Pipeline(
+        [
+            ("scaler", StandardScaler()),
+            ("classifier", SVC(kernel="rbf")),
+        ]
+    )
 
 
 def plot_decision_tree_classifier(decision_tree):
+    """Save the trained decision tree as an SVG figure."""
     depth = decision_tree.tree_.max_depth
     leaves = decision_tree.tree_.n_leaves
     figure_width = max(24, min(2.5 * leaves, 220))
@@ -40,8 +55,7 @@ def plot_decision_tree_classifier(decision_tree):
     )
     figure.tight_layout()
 
-    output_dir = Path("output") / "ex3" / "figures"
+    output_dir = get_a3_root() / "output" / "ex3" / "figures"
     output_dir.mkdir(parents=True, exist_ok=True)
     figure.savefig(output_dir / "decision_tree.svg", bbox_inches="tight")
-
-
+    plt.close(figure)

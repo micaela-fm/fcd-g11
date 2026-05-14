@@ -2,6 +2,7 @@ from sklearn import tree
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 import matplotlib.pyplot as plt
@@ -10,14 +11,20 @@ from A3.src.utils.paths import get_a3_root
 
 
 def create_decision_tree_classifier():
-    """Create a decision tree classifier."""
-    return DecisionTreeClassifier(criterion="entropy", random_state=0)
+    """Create a decision tree classifier pipeline with mean imputation."""
+    return Pipeline(
+        [
+            ("imputer", SimpleImputer(strategy="mean")),
+            ("classifier", DecisionTreeClassifier(criterion="entropy", random_state=0)),
+        ]
+    )
 
 
 def create_knn_classifier():
-    """Create a kNN classifier pipeline with feature scaling."""
+    """Create a kNN classifier pipeline with mean imputation and scaling."""
     return Pipeline(
         [
+            ("imputer", SimpleImputer(strategy="mean")),
             ("scaler", StandardScaler()),
             ("classifier", KNeighborsClassifier(n_neighbors=5, metric="euclidean")),
         ]
@@ -25,9 +32,10 @@ def create_knn_classifier():
 
 
 def create_svm_classifier():
-    """Create an SVM classifier pipeline with feature scaling."""
+    """Create an SVM classifier pipeline with mean imputation and scaling."""
     return Pipeline(
         [
+            ("imputer", SimpleImputer(strategy="mean")),
             ("scaler", StandardScaler()),
             ("classifier", SVC()),
         ]
@@ -36,6 +44,9 @@ def create_svm_classifier():
 
 def plot_decision_tree_classifier(decision_tree):
     """Save the trained decision tree as an SVG figure."""
+    if isinstance(decision_tree, Pipeline):
+        decision_tree = decision_tree.named_steps["classifier"]
+
     depth = decision_tree.tree_.max_depth
     leaves = decision_tree.tree_.n_leaves
     figure_width = max(24, min(2.5 * leaves, 220))

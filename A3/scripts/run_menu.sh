@@ -31,11 +31,11 @@ if [ ! -d "$repo_root" ]; then
     exit 1
 fi
 
-if [ ! -f "$venv_path/bin/activate" ]; then
-    echo "O virtualenv não existe ou não tem bin/activate: $venv_path"
+if [ ! -x "$venv_path/bin/python" ]; then
+    echo "O virtualenv não existe ou não tem bin/python: $venv_path"
     exit 1
 fi
 
-cd "$repo_root"
-source "$venv_path/bin/activate"
-python -m A3.src.menu
+export PYTHONPATH="$repo_root"
+cd "$repo_root/A3"
+"$venv_path/bin/python" -m A3.src.menu

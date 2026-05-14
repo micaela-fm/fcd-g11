@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 from A3.src.utils.paths import get_a3_root
 
@@ -8,6 +9,13 @@ DATASET_CONFIGS = {
         "file_name": "diabetes.csv",
         "target_column": "Outcome",
         "read_options": {"sep": ","},
+        "zero_as_missing_columns": [
+            "Glucose",
+            "BloodPressure",
+            "SkinThickness",
+            "Insulin",
+            "BMI",
+        ],
     },
     "iris": {
         "file_name": "iris.csv",
@@ -48,5 +56,8 @@ def load_dataset_for_classification(dataset_name):
     target_column = dataset_config["target_column"]
     y = df[target_column]
     X = df.drop(columns=target_column)
+
+    for column in dataset_config.get("zero_as_missing_columns", []):
+        X[column] = X[column].replace(0, np.nan)
 
     return X, y, X.columns.tolist(), sorted(y.unique().tolist())

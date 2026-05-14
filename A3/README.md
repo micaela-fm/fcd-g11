@@ -1,11 +1,13 @@
-# FCD - Fundamentos de Ciências de Dados - A.3
+# FCD - Fundamentos de Ciência de Dados - A.3
 
-## Datasets
+## 1. Datasets
+
+Datasets usados no Projeto A.3:
 
 * [Pima Indians Diabetes](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
 * [Iris](https://archive.ics.uci.edu/dataset/53/iris)
-* [Wine quality - white](https://archive.ics.uci.edu/dataset/186/wine+quality)
-* [Forest fires](https://archive.ics.uci.edu/dataset/162/forest+fires)
+* [Wine Quality - White](https://archive.ics.uci.edu/dataset/186/wine+quality)
+* [Forest Fires](https://archive.ics.uci.edu/dataset/162/forest+fires)
 * [Zoo](https://archive.ics.uci.edu/dataset/111/zoo)
 
 Seleção final por exercício:
@@ -14,41 +16,23 @@ Seleção final por exercício:
 * Exercício 2(b): Iris.
 * Exercício 3: Diabetes, Iris, Wine Quality - White e Zoo.
 
-## Estrutura do A.3
+## 2. Estrutura do projeto
 
 * `data/raw` contém os dados originais.
-* `src/ex1` contém o script de verificação do ambiente do Exercício 1.
-* `src/ex2/a` contém os scripts do Exercício 2(a).
-* `src/ex2/b` contém os scripts do Exercício 2(b).
+* `data/processed` contém versões preparadas em CSV dos datasets usados no Exercício 3.
+* `src/ex1` contém o script de verificação do ambiente.
+* `src/ex2/a` contém os scripts de caracterização e conversão dos datasets.
+* `src/ex2/b` contém o script de visualização do Iris.
 * `src/ex2/utils` contém código comum aos scripts do Exercício 2.
-* `output/ex1` contém as tabelas geradas no Exercício 1.
-* `output/ex2/a` contém tabelas e ficheiros convertidos do Exercício 2(a).
-* `output/ex2/b` contém figuras e tabelas geradas no Exercício 2(b).
-* `output/ex3` contém métricas, matrizes de confusão, tabelas LaTeX e figuras do Exercício 3.
+* `src/ex3` contém os scripts de classificação e avaliação.
+* `src/utils` contém utilitários comuns de paths e tabelas.
+* `output` contém os resultados gerados pelos scripts.
 * `report` será usado para o relatório.
 * `_local_references` contém anexos locais ignorados pelo Git e não faz parte da entrega.
 
-## Execução dos scripts
+## 3. Preparação do ambiente
 
-Todos os comandos devem ser executados a partir da raiz do repositório, não dentro da pasta `A3/`.
-
-Nos exemplos abaixo:
-
-* `<repo-root>` representa a pasta raiz do projeto `fcd-g11`;
-* `<path-to-venv>` representa o caminho para o ambiente virtual Python;
-* depois de ativar o ambiente, executar sempre os scripts com `python -m ...`.
-
-Os outputs principais atuais são tabelas CSV e LaTeX `.tex`. Alguns ficheiros Markdown podem existir como legado técnico, mas não são o formato principal para o relatório.
-
-No ambiente local usado neste projeto, o `python3` do sistema não tem `scikit-learn`. Para correr o Exercício 3 foi usado o virtualenv:
-
-```bash
-/home/tiago-nevoa/.virtualenvs/fcd-g11/bin/python
-```
-
-## Preparação do ambiente Python
-
-Criar e ativar um ambiente virtual, depois instalar as dependências:
+A partir da raiz do repositório:
 
 ```bash
 python -m venv .venv
@@ -56,193 +40,190 @@ source .venv/bin/activate
 pip install -r A3/requirements.txt
 ```
 
-## Menu de execução
+Dependências principais:
 
-Executar a partir da raiz do repositório, com o ambiente virtual ativado:
+* numpy
+* pandas
+* matplotlib
+* seaborn
+* scikit-learn
+
+## 4. Execução
+
+Com o ambiente virtual ativo, o projeto pode ser executado de duas formas:
+
+### Opção A — executar pela raiz do repositório
 
 ```bash
-cd <repo-root>
-source <path-to-venv>/bin/activate
 python -m A3.src.menu
 ```
 
-O menu permite correr scripts individuais, correr o Exercício 3, correr todos os scripts e verificar se os outputs esperados existem.
+### Opção B — executar a partir da pasta `A3`
 
-Também pode ser usado diretamente com o Python do virtualenv validado:
-
-```bash
-cd <repo-root>
-/home/tiago-nevoa/.virtualenvs/fcd-g11/bin/python -m A3.src.menu
-```
-
-## Configuração local opcional
-
-O ficheiro `A3/config/local.properties.example` é o template de configuração local.
-Cada utilizador pode criar `A3/config/local.properties`, que é local e não deve ir para Git.
-
-Criar a configuração local:
+Criar primeiro a configuração local:
 
 ```bash
 cp A3/config/local.properties.example A3/config/local.properties
 ```
 
-Depois editar `A3/config/local.properties` e preencher:
+Editar `A3/config/local.properties`:
 
 ```text
-repo_root=<repo-root>
-venv_path=<path-to-venv>
+repo_root=<caminho-para-o-repositorio>
+venv_path=<caminho-para-o-virtualenv>
 ```
 
-Com essa configuração, é possível abrir o menu com:
+Depois executar:
 
 ```bash
-bash A3/scripts/run_menu.sh
+cd A3
+bash scripts/run_menu.sh
 ```
 
-Também é possível continuar a usar o comando genérico:
+O menu permite:
+
+* correr cada exercício individualmente;
+* correr todos os exercícios;
+* verificar se os outputs esperados existem.
+
+## 5. Exercício 1 - Ambiente
+
+Script principal:
 
 ```bash
-cd <repo-root>
-source <path-to-venv>/bin/activate
-python -m A3.src.menu
-```
-
-## Exercício 1 - Ambiente
-
-Executar:
-
-```bash
-cd <repo-root>
-source <path-to-venv>/bin/activate
 python -m A3.src.ex1.environment_check
 ```
 
-Ficheiros gerados:
+Objetivo:
 
-* `A3/output/ex1/tables/environment_versions.csv`
-* `A3/output/ex1/tables/environment_versions.tex`
+* verificar a versão do Python;
+* verificar as bibliotecas principais;
+* gerar tabela de versões do ambiente.
 
-## Exercício 2(a) - Caracterização dos datasets
+Outputs principais:
 
-A tabela do Exercício 2(a) caracteriza apenas Diabetes, Iris e Forest Fires. O dataset Wine Quality - White é usado posteriormente no Exercício 3.
+* `output/ex1/tables/environment_versions.csv`
+* `output/ex1/tables/environment_versions.tex`
 
-Executar:
+## 6. Exercício 2(a) - Caracterização e conversão
+
+Scripts principais:
 
 ```bash
-cd <repo-root>
-source <path-to-venv>/bin/activate
 python -m A3.src.ex2.a.dataset_inventory
 python -m A3.src.ex2.a.dataset_summary
 python -m A3.src.ex2.a.dataset_conversion
 ```
 
-Ficheiros gerados:
+Datasets usados:
 
-* `A3/output/ex2/a/tables/ex2a_dataset_summary.csv`
-* `A3/output/ex2/a/tables/ex2a_dataset_summary.tex`
-* `A3/output/ex2/a/tables/ex2a_converted_files.csv`
-* `A3/output/ex2/a/tables/ex2a_converted_files.tex`
-* `A3/output/ex2/a/converted/`
+* Diabetes
+* Iris
+* Forest Fires
 
-## Exercício 2(b) - Visualização do Iris
+Objetivo:
 
-Este exercício gera três scatter-plots individuais, um gráfico de barras, uma tabela com a distribuição das classes e uma tabela neutra com o índice dos scatter-plots.
+* caracterizar os datasets;
+* identificar número de instâncias, colunas e features;
+* distinguir features numéricas e categóricas;
+* calcular valores omissos;
+* identificar o tipo de problema;
+* converter os datasets para outro formato.
 
-Executar:
+Outputs principais:
+
+* `output/ex2/a/tables/ex2a_dataset_summary.csv`
+* `output/ex2/a/tables/ex2a_dataset_summary.tex`
+* `output/ex2/a/tables/ex2a_converted_files.csv`
+* `output/ex2/a/tables/ex2a_converted_files.tex`
+* `output/ex2/a/converted/`
+
+## 7. Exercício 2(b) - Visualização do Iris
+
+Script principal:
 
 ```bash
-cd <repo-root>
-source <path-to-venv>/bin/activate
 python -m A3.src.ex2.b.iris_visualization
 ```
 
-Ficheiros gerados:
+Dataset usado:
 
-* `A3/output/ex2/b/figures/2b_Iris_PetalLength_PetalWidth.png`
-* `A3/output/ex2/b/figures/2b_Iris_SepalLength_SepalWidth.png`
-* `A3/output/ex2/b/figures/2b_Iris_SepalLength_PetalLength.png`
-* `A3/output/ex2/b/figures/2b_Iris_ClassDistribution.png`
-* `A3/output/ex2/b/tables/2b_iris_class_distribution.csv`
-* `A3/output/ex2/b/tables/2b_iris_class_distribution.tex`
-* `A3/output/ex2/b/tables/2b_iris_scatter_plot_index.csv`
-* `A3/output/ex2/b/tables/2b_iris_scatter_plot_index.tex`
+* Iris
 
-Para adaptar este script a outro dataset, configurar no início de `iris_visualization.py` os valores `DATASET_ID`, `SCATTER_PAIRS` e `OUTPUT_PREFIX`. O dataset também deve estar registado em `A3/src/ex2/utils/datasets.py`.
+Objetivo:
 
-## Exercício 3 - Classificação e avaliação
+* gerar três scatter plots entre pares de variáveis;
+* gerar um gráfico de barras com o número de instâncias por classe;
+* gerar tabelas objetivas para apoiar o relatório.
 
-O Exercício 3 usa Diabetes, Iris, Wine Quality - White e Zoo. O dataset Zoo foi escolhido como dataset adicional de classificação multiclasse. O dataset Forest Fires não é usado no Exercício 3; fica apenas no Exercício 2(a), onde é caracterizado como problema de regressão.
+Outputs principais:
 
-O script avalia Decision Tree, kNN e SVM com validação cruzada estratificada 10-fold. Para kNN e SVM, a normalização com `StandardScaler` é feita dentro do pipeline avaliado na validação cruzada, evitando data leakage. O `random_state=0` é usado apenas para reprodutibilidade. Wine Quality e Zoo têm classes raras, pelo que o scikit-learn pode emitir avisos sobre classes com poucos exemplos; mantemos 10 folds porque é o procedimento pedido.
+* `output/ex2/b/figures/2b_Iris_PetalLength_PetalWidth.png`
+* `output/ex2/b/figures/2b_Iris_SepalLength_SepalWidth.png`
+* `output/ex2/b/figures/2b_Iris_SepalLength_PetalLength.png`
+* `output/ex2/b/figures/2b_Iris_ClassDistribution.png`
+* `output/ex2/b/tables/2b_iris_class_distribution.csv`
+* `output/ex2/b/tables/2b_iris_class_distribution.tex`
+* `output/ex2/b/tables/2b_iris_scatter_plot_index.csv`
+* `output/ex2/b/tables/2b_iris_scatter_plot_index.tex`
 
-Executar pelo menu ou diretamente:
+A interpretação dos gráficos deve ser feita no relatório.
+
+## 8. Exercício 3 - Classificação e avaliação
+
+Script principal:
 
 ```bash
-cd <repo-root>
-source <path-to-venv>/bin/activate
 python -m A3.src.ex3.main
 ```
 
-No ambiente local validado, também pode ser executado diretamente com:
+Datasets usados:
 
-```bash
-cd <repo-root>
-/home/tiago-nevoa/.virtualenvs/fcd-g11/bin/python -m A3.src.ex3.main
-```
+* Diabetes
+* Iris
+* Wine Quality - White
+* Zoo
 
-Ficheiros principais gerados:
+Classificadores avaliados:
 
-* `A3/output/ex3/tables/evaluation_summary.csv`
-* `A3/output/ex3/tables/evaluation_summary.tex`
-* `A3/output/ex3/tables/best_classifiers.csv`
-* `A3/output/ex3/tables/best_classifiers.tex`
-* `A3/output/ex3/tables/*_classification_report.csv`
-* `A3/output/ex3/tables/*_classification_report.tex`
-* `A3/output/ex3/tables/*_confusion_matrix.csv`
-* `A3/output/ex3/tables/*_confusion_matrix.tex`
-* `A3/output/ex3/figures/decision_tree.svg`
+* Decision Tree
+* kNN
+* SVM
 
-As tabelas LaTeX do Exercício 3 são geradas automaticamente pelo script de avaliação, usando funções auxiliares em `A3/src/ex3/main.py`.
+Metodologia:
 
-Melhores classificadores validados:
+* validação cruzada estratificada 10-fold;
+* matriz de confusão;
+* accuracy;
+* precision;
+* recall;
+* F1-score.
+
+Decisões principais:
+
+* kNN usa distância euclidiana.
+* kNN usa standardização porque depende de distâncias entre instâncias.
+* SVM usa a configuração padrão da biblioteca.
+* Decision Tree usa `entropy` como critério de divisão.
+* A standardização é aplicada dentro de um `Pipeline`, para que em cada fold seja aprendida apenas com os dados de treino e aplicada depois aos dados de teste.
+
+Outputs principais:
+
+* `output/ex3/tables/evaluation_summary.csv`
+* `output/ex3/tables/evaluation_summary.tex`
+* `output/ex3/tables/best_classifiers.csv`
+* `output/ex3/tables/best_classifiers.tex`
+* `output/ex3/tables/*_classification_report.csv`
+* `output/ex3/tables/*_classification_report.tex`
+* `output/ex3/tables/*_confusion_matrix.csv`
+* `output/ex3/tables/*_confusion_matrix.tex`
+* `output/ex3/figures/decision_tree.svg`
+
+Melhores classificadores obtidos:
 
 * Diabetes: SVM.
 * Iris: SVM.
 * Wine Quality - White: Decision Tree.
 * Zoo: Decision Tree.
 
-O código gera outputs técnicos objetivos. A interpretação qualitativa dos resultados deve ser feita no relatório.
-
-## Como adaptar scripts a outro dataset
-
-Para reutilizar os scripts com outro dataset:
-
-* adicionar a configuração do dataset em `A3/src/ex2/utils/datasets.py`;
-* definir um `dataset_id` simples e único;
-* definir a `target_column`;
-* definir `read_options` quando o ficheiro precisar de separador, cabeçalho ou nomes de colunas específicos;
-* garantir que o ficheiro existe em `A3/data/raw`;
-* no script de visualização, ajustar `DATASET_ID`, `SCATTER_PAIRS` e `OUTPUT_PREFIX`.
-
-## Notas para o relatório
-
-No relatório PDF, as tabelas devem privilegiar nomes de ficheiros simples para manter a leitura clara.
-Nos outputs técnicos e neste README, podem ser usados paths relativos completos para facilitar a validação dos ficheiros.
-
-## Exportação limpa do projeto
-
-A entrega/zip final não deve incluir ficheiros locais ou gerados automaticamente, como:
-
-* `.git/`
-* `.idea/`
-* `A3/_local_references/`
-* `A3/config/local.properties`
-* `__pycache__/`
-* `build/`
-* `tmp/`
-
-Comando recomendado para criar um zip limpo a partir do Git:
-
-```bash
-git archive --format=zip --output ../fcd-g11-a3.zip HEAD
-```
+Nota: no Wine Quality - White e no Zoo podem surgir avisos quando uma classe tem menos exemplos do que os 10 folds usados na validação cruzada.

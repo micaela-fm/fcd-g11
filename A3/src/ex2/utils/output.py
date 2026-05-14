@@ -1,4 +1,5 @@
 def dataframe_to_markdown(dataframe):
+    """Convert a dataframe to a Markdown table."""
     columns = list(dataframe.columns)
     rows = [
         "| " + " | ".join(columns) + " |",
@@ -13,6 +14,7 @@ def dataframe_to_markdown(dataframe):
 
 
 def ensure_parent_dir(path):
+    """Create the parent directory for an output path."""
     path.parent.mkdir(parents=True, exist_ok=True)
 
 
@@ -23,6 +25,7 @@ def save_dataframe_as_csv_and_markdown(
     title,
     note="",
 ):
+    """Save a dataframe as CSV and Markdown files."""
     ensure_parent_dir(csv_path)
     ensure_parent_dir(markdown_path)
 

@@ -1,17 +1,20 @@
-import csv
 import importlib
 import sys
-from pathlib import Path
+
+import pandas as pd
+
+from A3.src.utils.paths import get_a3_root, relative_to_project
+from A3.src.utils.tables import (
+    print_dataframe_summary,
+    save_dataframe_as_csv_and_latex,
+)
 
 
 PACKAGES = ["numpy", "pandas", "matplotlib", "seaborn", "sklearn"]
 
 
-def get_a3_root():
-    return Path(__file__).resolve().parents[2]
-
-
 def get_package_version(package_name):
+    """Return the installed package version."""
     try:
         package = importlib.import_module(package_name)
         return getattr(package, "__version__", "versão não disponível")
@@ -19,63 +22,45 @@ def get_package_version(package_name):
         return "não instalado"
 
 
-def rows_to_markdown(rows):
-    columns = list(rows[0].keys())
-    rows = [
-        "| " + " | ".join(columns) + " |",
-        "| " + " | ".join("---" for _ in columns) + " |",
-    ] + [
-        "| " + " | ".join(str(row[column]) for column in columns) + " |"
-        for row in rows
-    ]
-
-    return "\n".join(rows)
-
-
 def build_versions_table():
-    rows = [{"package": "python", "version": sys.version.split()[0]}]
+    """Build the Python environment versions table."""
+    rows = [{"component": "python", "version": sys.version.split()[0]}]
 
     for package_name in PACKAGES:
         rows.append(
             {
-                "package": package_name,
+                "component": package_name,
                 "version": get_package_version(package_name),
             }
         )
 
-    return rows
+    return pd.DataFrame(rows)
 
 
-def save_versions_table(version_rows):
+def save_versions_table(versions_dataframe):
+    """Save the versions table as CSV and LaTeX."""
     output_dir = get_a3_root() / "output" / "ex1" / "tables"
-    output_dir.mkdir(parents=True, exist_ok=True)
-
     csv_path = output_dir / "environment_versions.csv"
-    markdown_path = output_dir / "environment_versions.md"
+    tex_path = output_dir / "environment_versions.tex"
 
-    with csv_path.open("w", newline="", encoding="utf-8") as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=["package", "version"])
-        writer.writeheader()
-        writer.writerows(version_rows)
-
-    markdown_path.write_text(
-        "# Versões do ambiente - Exercício 1\n\n"
-        f"{rows_to_markdown(version_rows)}\n",
-        encoding="utf-8",
+    return save_dataframe_as_csv_and_latex(
+        versions_dataframe,
+        csv_path,
+        tex_path,
+        "Versões do ambiente Python utilizado no módulo A.3",
+        "tab:environment-versions",
     )
-
-    return csv_path, markdown_path
 
 
 def main():
-    version_rows = build_versions_table()
-    csv_path, markdown_path = save_versions_table(version_rows)
+    """Run the Python environment check."""
+    versions_dataframe = build_versions_table()
+    csv_path, tex_path = save_versions_table(versions_dataframe)
 
-    for row in version_rows:
-        print(f"{row['package']}: {row['version']}")
+    print_dataframe_summary("Versões do ambiente Python", versions_dataframe)
     print()
-    print(f"CSV guardado em: {csv_path.relative_to(get_a3_root().parent)}")
-    print(f"Markdown guardado em: {markdown_path.relative_to(get_a3_root().parent)}")
+    print(f"CSV guardado em: {relative_to_project(csv_path)}")
+    print(f"LaTeX guardado em: {relative_to_project(tex_path)}")
 
 
 if __name__ == "__main__":

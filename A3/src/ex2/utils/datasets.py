@@ -34,11 +34,11 @@ def get_dataset_configs():
         {
             "dataset_id": "diabetes",
             "dataset_name": "Diabetes",
-            "source_file": a3_root / "data" / "raw" / "diabetes" / "diabetes.csv",
+            "source_file": a3_root / "data" / "raw" / "diabetes" / "pima-diabetes.csv",
             "source_url": "https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database",
             "target_column": "Outcome",
             "task_type": "classificação binária",
-            "read_options": {},
+            "read_options": {"skiprows": [1, 2]},
         },
         {
             "dataset_id": "iris",

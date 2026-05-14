@@ -126,6 +126,8 @@ Ficheiros gerados:
 
 A tabela do Exercício 2(a) caracteriza apenas Diabetes, Iris e Forest Fires. O dataset Wine Quality - White é usado posteriormente no Exercício 3.
 
+No Exercício 2(a), o dataset Diabetes é lido a partir de `A3/data/raw/diabetes/pima-diabetes.csv`. Este ficheiro tem duas linhas de metadados após o cabeçalho, ignoradas com `skiprows=[1, 2]`. Após a leitura, o dataset tem 768 instâncias e 9 colunas. Alguns valores clínicos ausentes aparecem como campos vazios e são contabilizados como valores omissos: 652 valores, correspondendo a 9.43%.
+
 Executar:
 
 ```bash

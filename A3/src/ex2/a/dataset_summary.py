@@ -18,8 +18,8 @@ METHODOLOGICAL_NOTE = [
     "A tabela corresponde aos três datasets escolhidos para o Exercício 2(a).",
     "A contagem de features exclui a variável target.",
     "A percentagem de missing values considera apenas valores formalmente ausentes.",
-    "No dataset Diabetes existem valores zero em atributos clínicos que podem ser "
-    "interpretados como inválidos/suspeitos, mas não foram tratados como missing values.",
+    "No dataset Diabetes, o ficheiro pima-diabetes.csv já representa alguns "
+    "valores clínicos ausentes como campos vazios, que foram contabilizados como missing values.",
     "O dataset Forest Fires é identificado como regressão porque o target area é numérico contínuo.",
     "O dataset Wine Quality - White será usado posteriormente no Exercício 3, "
     "mas não integra a tabela do Exercício 2(a).",

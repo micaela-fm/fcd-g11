@@ -1,5 +1,5 @@
 dataset_name,source_file,original_format,converted_file,converted_format
-Diabetes,diabetes.csv,csv,diabetes.json,json
+Diabetes,pima-diabetes.csv,csv,diabetes.json,json
 Iris,iris.data,data,iris.json,json
 Iris,iris.data,data,iris.csv,csv
 Forest Fires,forestfires.csv,csv,forest_fires.json,json

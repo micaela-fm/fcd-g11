@@ -19,7 +19,7 @@ def create_knn_classifier():
     return Pipeline(
         [
             ("scaler", StandardScaler()),
-            ("classifier", KNeighborsClassifier(n_neighbors=5)),
+            ("classifier", KNeighborsClassifier(n_neighbors=5, metric="euclidean")),
         ]
     )
 
@@ -29,7 +29,7 @@ def create_svm_classifier():
     return Pipeline(
         [
             ("scaler", StandardScaler()),
-            ("classifier", SVC(kernel="rbf")),
+            ("classifier", SVC()),
         ]
     )
 

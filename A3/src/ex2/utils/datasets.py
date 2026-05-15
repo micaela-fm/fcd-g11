@@ -122,10 +122,13 @@ def get_file_format(path):
 def get_dataset_profile(dataframe, dataset_config):
     """Infer dataset profile values from a loaded dataframe."""
     target_column = dataset_config["target_column"]
-    total_values = dataframe.size
-    missing_values_total = int(dataframe.isna().sum().sum())
+    feature_columns = [column for column in dataframe.columns if column != target_column]
+    total_feature_values = len(dataframe) * len(feature_columns)
+    missing_values_total = int(dataframe[feature_columns].isna().sum().sum())
     missing_values_percentage = (
-        (missing_values_total / total_values) * 100 if total_values else 0
+        (missing_values_total / total_feature_values) * 100
+        if total_feature_values
+        else 0
     )
     n_features, n_numeric_features, n_categorical_features = count_feature_types(
         dataframe,
